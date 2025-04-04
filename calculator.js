@@ -163,6 +163,9 @@ const OTROS_GASTOS_DEDUCIBLES = 0;
 const MINIMO_PERSONAL_FAMILIAR = 5550;
 const OTROS_GASTOS_CUANTIA_FIJA_CARACTER_GENERAL = 2000;
 
+// Mínimo exento IRPF
+const MINIMO_EXENTO_IRPF = 15876; // 2024
+
 let elements = {};
 
 function init() {
@@ -190,21 +193,38 @@ function init() {
 }
 
 function calcular() {
+  // Get values from inputs
+  const comunidadAutonoma = elements.comunidadAutonoma.value;
   const ingresosIntegros = parseFloat(elements.salario.value);
   const cantidadPagos = parseFloat(elements.cantidadPagos.value);
-  const comunidadAutonoma = elements.comunidadAutonoma.value;
-  const gravamenAutonomico = determineTaxRateForRegion(
-    comunidadAutonoma,
-    gravamenAutonomico
-  );
 
+  // Calcular cotizaciones a la Seguridad Social
   const cotizacionContingenciasComunes =
     (ingresosIntegros * COTIZACION_CONTRIBUCION_COMUN) / 100;
   const cotizacionFormacion = (ingresosIntegros * COTIZACION_FORMACION) / 100;
   const cotizacionDesempleo = (ingresosIntegros * COTIZACION_DESEMPLEO) / 100;
-
   const seguridadSocial =
     cotizacionContingenciasComunes + cotizacionFormacion + cotizacionDesempleo;
+
+  if (ingresosIntegros < MINIMO_EXENTO_IRPF) {
+    const anualNeto = ingresosIntegros - seguridadSocial;
+    const mensualNeto = anualNeto / cantidadPagos;
+    setResults(
+      0,
+      0,
+      0,
+      0,
+      anualNeto,
+      mensualNeto,
+      cotizacionContingenciasComunes,
+      cotizacionFormacion,
+      cotizacionDesempleo,
+      seguridadSocial
+    );
+    return;
+  }
+
+  const gravamenAutonomico = determineTaxRateForRegion(comunidadAutonoma);
 
   // Cálculos de las casillas de la declaración
   const casilla505 =
@@ -238,8 +258,9 @@ function calcular() {
   );
 }
 
-function determineTaxRateForRegion(comunidadAutonoma, GRAVAMEN_AUTONOMICO) {
+function determineTaxRateForRegion(comunidadAutonoma) {
   const regionTaxMap = {
+    cataluna: GRAVAMEN_AUTONOMICO_CATALUNA,
     andalucia: GRAVAMEN_AUTONOMICO_ANDALUCIA,
     aragon: GRAVAMEN_AUTONOMICO_ARAGON,
     asturias: GRAVAMEN_AUTONOMICO_ASTURIAS,
@@ -255,7 +276,7 @@ function determineTaxRateForRegion(comunidadAutonoma, GRAVAMEN_AUTONOMICO) {
     valencia: GRAVAMEN_AUTONOMICO_VALENCIA,
   };
 
-  return regionTaxMap[comunidadAutonoma] || GRAVAMEN_AUTONOMICO_CATALUNA;
+  return regionTaxMap[comunidadAutonoma];
 }
 
 function setResults(
