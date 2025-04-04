@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora salario neto 2024</title>
+    <script defer="" src="./calculator.js"></script>
+    <link href="./bootstrap.min.css" rel="stylesheet" />
+  </head>
+
+  <body
+    class="container col col-xxl-3 col-xl-4 col-md-6 mx-auto my-4"
+    data-bs-theme="dark"
+  >
+    <h1>Calculadora salario neto 2024</h1>
+    <h2 class="lead">2024</h2>
+    <hr />
+    <div class="mb-3">
+      <label for="salario" class="form-label">Salario anual bruto:</label>
+      <input
+        type="number"
+        class="form-control"
+        name="salario"
+        id="salario"
+        lang="es"
+        step="1000"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="cantidadPagos" class="form-label">Número de pagas:</label>
+      <select class="form-select" name="cantidadPagos" id="cantidadPagos">
+        <option value="12">12</option>
+        <option value="14">14</option>
+        <option value="16">16</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="cantidadPagos" class="form-label">Comunidad autónoma</label>
+      <select
+        class="form-select"
+        name="comunidadAutonoma"
+        id="comunidadAutonoma"
+      >
+        <option value="cataluna">Cataluña</option>
+        <option value="andalucia">Andalucía</option>
+        <option value="aragon">Aragón</option>
+        <option value="asturias">Asturias</option>
+        <option value="illes-baleares">Illes Balears</option>
+        <option value="canarias">Canarias</option>
+        <option value="cantabria">Cantabria</option>
+        <option value="castilla-la-mancha">Castilla-La Mancha</option>
+        <option value="castilla-y-leon">Castilla y León</option>
+        <option value="extremadura">Extremadura</option>
+        <option value="galicia">Galicia</option>
+        <option value="madrid">Madrid</option>
+        <option value="murcia">Murcia</option>
+        <option value="valencia">Comunidad Valenciana</option>
+      </select>
+    </div>
+
+    <section class="my-5">
+      <h3>Resultados</h3>
+      <hr />
+      <h5>IRPF</h5>
+      <div>Gravamen estatal: <b id="gravamenEstatal">- €</b></div>
+      <div>Gravamen autonómico: <b id="gravamenAutonomico">- €</b></div>
+      <div>IRPF total: <b id="totalIrpf">- €</b></div>
+      <div>Porcentaje IRPF total: <b id="totalIrpfPorcentaje">- %</b></div>
+      <hr />
+      <h5>Seguridad social</h5>
+      <div>
+        Cotización cont. comúm: <b id="cotizacionContingenciasComunes">- €</b>
+      </div>
+      <div>Cotización formación: <b id="cotizacionFormacion">- €</b></div>
+      <div>Cotización desempleo: <b id="cotizacionDesempleo">- €</b></div>
+      <div>TOTAL SEGURIDAD SOCIAL: <b id="totalSeguridadSocial">- €</b></div>
+      <hr />
+      <h5>Salario neto</h5>
+      <div>Salario anual neto: <b id="anualNeto">- €</b></div>
+      <div>Salario mensual neto: <b id="mensualNeto">- €</b></div>
+      <hr />
+    </section>
+  </body>
+</html>
